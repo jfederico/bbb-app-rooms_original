@@ -113,12 +113,12 @@ class RoomsController < ApplicationController
     end
 
     def authenticate_user!
-      return unless omniauth_provider?(:bbbltibroker)
+      return unless omniauth_provider?(:ltibroker)
       # Assume user authenticated if session[:uid] is set
       return if session[:uid]
       if params['action'] == 'launch'
         cookies['launch_params'] = { :value => params.except(:app, :controller, :action).to_json, :expires => 30.minutes.from_now }
-        redirect_to omniauth_authorize_path(:bbbltibroker) and return
+        redirect_to omniauth_authorize_path(:ltibroker) and return
       end
       redirect_to errors_path(401)
     end
@@ -129,8 +129,8 @@ class RoomsController < ApplicationController
       @room = Room.find_by(id: params[:id])
       # Exit with error if room was not found
       set_error('notfound', :not_found) and return unless @room
-      # Exit by setting the user as Administrator if bbbltibroker is not enabled
-      unless omniauth_provider?(:bbbltibroker)
+      # Exit by setting the user as Administrator if ltibroker is not enabled
+      unless omniauth_provider?(:ltibroker)
         @user = User.new({uid: 0, roles: 'Administrator', full_name: 'User'})
         return
       end

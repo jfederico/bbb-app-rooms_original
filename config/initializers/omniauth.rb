@@ -16,5 +16,5 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   options = { provider_ignores_state: true, path_prefix: omniauth_path_prefix, omniauth_root: omniauth_root, client_options: client_options }
 
   # Initialize the provider
-  provider :bbbltibroker, omniauth_key, omniauth_secret, options unless omniauth_key.empty? or omniauth_secret.empty?
+  provider :ltibroker, omniauth_key, omniauth_secret, options unless omniauth_key.empty? or omniauth_secret.empty?
 end

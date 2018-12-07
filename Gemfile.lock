@@ -1,8 +1,8 @@
 GIT
-  remote: https://github.com/bigbluebutton/omniauth-bbbltibroker.git
-  revision: 0fcb7068744948d70a98b5c21544d016c49b9982
+  remote: https://github.com/bigbluebutton/omniauth-ltibroker.git
+  revision: 79fd316ac54cb5b455fde9aa526d0f7145ef865a
   specs:
-    omniauth-bbbltibroker (0.1.0)
+    omniauth-ltibroker (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -278,7 +278,7 @@ DEPENDENCIES
   json
   listen (>= 3.0.5, < 3.2)
   omniauth
-  omniauth-bbbltibroker!
+  omniauth-ltibroker!
   omniauth-oauth2
   pg (~> 0.21)
   puma (~> 3.11)
