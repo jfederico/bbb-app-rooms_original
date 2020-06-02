@@ -6,25 +6,20 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: circleci/ruby:2.6.3-node-browsers
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      - image: circleci/postgres:9.5-alpine
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      - image: postgres:11
+        environment:
+          POSTGRES_PASSWORD: password
+          DB_ADAPTER: postgresql
+          DB_HOST: localhost
+          DB_USERNAME: postgres
+          DB_PASSWORD: password
+          DB_NAME: bbb_lti_broker
 
     working_directory: ~/repo
 
     steps:
       - checkout
-      - run:
-          name: install dockerize
-          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-          environment:
-            DOCKERIZE_VERSION: v0.3.0
 
       # Download and cache dependencies
       - restore_cache:
@@ -49,10 +44,12 @@ jobs:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
-      # Database setup
+      # Wait for DB
       - run:
           name: wait for db
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      # Database setup
       # - run:
       #     name: setup db
       #     command: |
